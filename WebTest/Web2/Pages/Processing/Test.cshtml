@@ -1,0 +1,418 @@
+﻿@page
+@model Web2.Pages.TestModel
+@{
+    ViewData["Title"] = "Прогноз";
+}
+
+<head>
+
+    <title> Learn DOM for PyScript </title>
+
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <py-config>
+
+        packages = ["numpy", "pandas", "scikit-learn", "lxml"]
+
+        plugins = ["https://pyscript.net/latest/plugins/python/py_tutor.py"]
+        
+        [splashscreen]
+            enabled = false
+
+    </py-config>
+
+</head>
+
+<body>
+
+    <h1>Прогноз патологий 🐍</h1>
+
+    <br>
+
+    <div style="display:flex">
+
+    <div>
+    <h2>Данные пациента</h2>
+
+    <p>
+        <label>Кальций сыворостки крови (ммоль/л)</label>
+        <input id="an1" asp-for="Analyzes.serum_calcium" class="inputAn" min="0" type="number" />
+        <span asp-validation-for="Analyzes.serum_calcium" class="text-danger"></span>
+    </p>
+    <p>
+        <label>Фосфор сыворотки крови (ммоль/л)</label>
+            <input id="an2" asp-for="Analyzes.serum_phosphorus" class="inputAn" min="0" type="number" />
+        <span asp-validation-for="Analyzes.serum_phosphorus" class="text-danger"></span>
+    </p>
+    <p>
+        <label>Оксипролин сыворотки крови (мкмоль/л)</label>
+            <input id="an3" asp-for="Analyzes.serum_oxyproline" class="inputAn" min="0" type="number" />
+        <span asp-validation-for="Analyzes.serum_oxyproline" class="text-danger"></span>
+    </p>
+    <p>
+        <label>Эксреция кальция (мМ/сутки)</label>
+            <input id="an4" asp-for="Analyzes.calcium_excretion" class="inputAn" min="0" type="number" />
+        <span asp-validation-for="Analyzes.calcium_excretion" class="text-danger"></span>
+    </p>
+    <p>
+        <label>Экскреция фосфора (ммоль/л)</label>
+            <input id="an5" asp-for="Analyzes.phosphorus_excretion" class="inputAn" min="0" type="number" />
+        <span asp-validation-for="Analyzes.phosphorus_excretion" class="text-danger"></span>
+    </p>
+    <p>
+        <label>Экскреция оксипролина (мкм/мг креатина)</label>
+            <input id="an6" asp-for="Analyzes.oxyproline_excretion" class="inputAn" min="0" type="number" />
+        <span asp-validation-for="Analyzes.oxyproline_excretion" class="text-danger"></span>
+    </p>
+    <p>
+        <label>Степень выраженности ДСТ (в баллах)</label>
+            <input id="an7" asp-for="Analyzes.severity_of_dst" class="inputAn" min="0" type="number" />
+        <span asp-validation-for="Analyzes.severity_of_dst" class="text-danger"></span>
+    </p>
+    <p>
+        <label>Время удержания позы</label>
+            <input id="an8" asp-for="Examination.posture_holding_time" class="inputAn" min="0" type="number" />
+        <span asp-validation-for="Examination.posture_holding_time" class="text-danger"></span>
+        </p>
+        <p>
+            <label>Величина кифоза в градусах в грудном отделе позвоночника</label>
+                <input id="an9" asp-for="Examination.the_amount_of_kyphosis_in_degress" class="inputAn" min="0" type="number" />
+            <span asp-validation-for="Examination.the_amount_of_kyphosis_in_degress" class="text-danger"></span>
+        </p>
+
+    </div>
+
+<div style="padding: 20px">
+    <p>Периоды для прогноза:</p>
+    <p>
+        <label>
+            <input name="per1" id="per1" type="checkbox"/>
+            <span>Начало диспансеризации</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input name="per2" id="per2" type="checkbox" />
+            <span>Через 3 года</span>
+        </label>
+    </p>
+    <p>
+        <label>
+            <input name="per2" id="per3" type="checkbox" />
+            <span>Через 7 лет</span>
+        </label>
+    </p>
+        </div>
+
+    <div>
+        <p>Выберите патологии для прогноза:</p>
+        <p>
+            <label>
+                <input name="ch1" id="ch1" type="checkbox" value="0" />
+                <span>Изменение контуров замыкательных пластинок</span>
+            </label>
+        </p>
+        <p>
+            <label>
+                <input name="ch2" id="ch2" type="checkbox" value="1" />
+                <span>Клиновидная форма тел позвонков</span>
+            </label>
+        </p>
+
+        <p>
+            <label>
+                <input name="ch3" id="ch3" type="checkbox" value="2" />
+                <span>Грыжи Шморля</span>
+            </label>
+        </p>
+
+        <p>
+            <label>
+                <input name="ch4" id="ch4" type="checkbox" value="3" />
+                <span>Остеопороз тел позвонков</span>
+            </label>
+        </p>
+
+        <p>
+            <label>
+                <input name="ch5" id="ch5" type="checkbox" value="4" />
+                <span>Уменьшение высоты межпозвонкового диска</span>
+            </label>
+        </p>
+
+        <p>
+            <label>
+                <input name="ch6" id="ch6" type="checkbox" value="5" />
+                <span>Изменение контуров апофизов</span>
+            </label>
+        </p>
+ 
+        <p>
+            <label>
+                <input name="ch7" id="ch7" type="checkbox" value="6" />
+                <span>Признаки остеохондроза</span>
+            </label>
+        </p>
+
+        <p>
+            <label>
+                <input name="ch8" id="ch8" type="checkbox" value="7" />
+                <span>Стабилографические изменения</span>
+            </label>
+        </p>
+
+        <p>
+            <label>
+                <input name="ch9" id="ch9" type="checkbox" value="8" />
+                <span>ЭНМГ</span>
+            </label>
+        </p>
+
+	</div>
+
+    </div>
+
+    <button id="run" type="button" class="c-button" py-click="analysis()">Анализ</button>
+
+    <p>Результат: 🐍</p>
+
+    <div data-aos="fade-up-left" class="blP">
+        <div class="blR">
+            <h2 class="result">Сейчас</h2>
+            <p style="display:none" id='r1_1'></p>
+            <p style="display:none" id='r1_2'></p>
+            <p style="display:none" id='r1_3'></p>
+            <p style="display:none" id='r1_4'></p>
+            <p style="display:none" id='r1_5'></p>
+            <p style="display:none" id='r1_6'></p>
+            <p style="display:none" id='r1_7'></p>
+            <p style="display:none" id='r1_8'></p>
+            <p style="display:none" id='r1_9'></p>
+        </div>
+        <div class="blR">
+            <h2 class="result">Через 3 года</h2>
+            <p style="display:none" id='r2_1'></p>
+            <p style="display:none" id='r2_2'></p>
+            <p style="display:none" id='r2_3'></p>
+            <p style="display:none" id='r2_4'></p>
+            <p style="display:none" id='r2_5'></p>
+            <p style="display:none" id='r2_6'></p>
+            <p style="display:none" id='r2_7'></p>
+            <p style="display:none" id='r2_8'></p>
+        </div>
+        <div class="blR">
+            <h2 class="result">Через 7 лет</h2>
+            <p style="display:none" id='r3_1'></p>
+            <p style="display:none" id='r3_2'></p>
+            <p style="display:none" id='r3_3'></p>
+            <p style="display:none" id='r3_4'></p>
+            <p style="display:none" id='r3_5'></p>
+            <p style="display:none" id='r3_6'></p>
+            <p style="display:none" id='r3_7'></p>
+            <p style="display:none" id='r3_8'></p>
+            <p style="display:none" id='r3_9'></p>
+        </div>
+    </div>
+
+<py-script>
+    import numpy as np
+    import pandas as pd
+    from pyodide.http import open_url
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.neighbors import KNeighborsClassifier
+    from sklearn.tree import DecisionTreeClassifier
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+    from sklearn.multioutput import MultiOutputClassifier
+    from sklearn.metrics import classification_report
+    from js import document
+
+    url="https://raw.githubusercontent.com/KenroyDytrim/PyScript/main/Alldata2.csv"
+
+    df = pd.read_csv(open_url(url))
+
+    df = df.replace('?',np.nan)
+    df = df.dropna()
+
+    X = df.drop(['IzmenKontr', 'KlinForm', 'GrajaSmorl', 'Osteoporoz', 'UmenVisoti', 'IzmenOpof', 'Osteohondroz', 'StabIzmen', 'ENMG', 'IzmenKontr2', 'KlinForm2', 'Osteoporoz2', 'UmenVisoti2', 'IzmenOpof2', 'Osteohondroz2', 'StabIzmen2', 'ENMG2',
+                'IzmenKontr3', 'KlinForm3', 'GrajaSmorl3', 'Osteoporoz3', 'UmenVisoti3', 'IzmenOpof3', 'Osteohondroz3', 'StabIzmen3', 'ENMG3'], axis=1)
+
+    X_transform = pd.get_dummies(X)
+    scale = StandardScaler()
+    X_scale = scale.fit_transform(X_transform)
+
+    names=["Изменение контуров замыкательных пластинок", "Клиновидная форма тел позвонков", "Грыжи Шморля", "Остеопороз тел позвонков", "Уменьшение высоты межпозвоночного диска", "Изменение контуров апофизов", "Признаки остеохондроза", "Стабилографические изменения", "ЭНМГ"]
+    names2=["Изменение контуров замыкательных пластинок", "Клиновидная форма тел позвонков", "Остеопороз тел позвонков", "Уменьшение высоты межпозвоночного диска", "Изменение контуров апофизов", "Признаки остеохондроза", "Стабилографические изменения", "ЭНМГ"]
+
+    clf1 = MultiOutputClassifier(RandomForestClassifier(n_estimators=150, min_samples_split=16, max_depth=30, bootstrap = True, criterion='entropy', max_features = 'sqrt'))
+    clf2 = MultiOutputClassifier(RandomForestClassifier(n_estimators=150, min_samples_split=16, max_depth=30, bootstrap = True, criterion='entropy', max_features = 'sqrt'))
+    clf3 = MultiOutputClassifier(RandomForestClassifier(n_estimators=150, min_samples_split=16, max_depth=30, bootstrap = True, criterion='entropy', max_features = 'sqrt'))
+
+    clf1t = MultiOutputClassifier(KNeighborsClassifier(n_neighbors=2))
+    clf2t = MultiOutputClassifier(KNeighborsClassifier(n_neighbors=2))
+    clf3t = MultiOutputClassifier(KNeighborsClassifier(n_neighbors=2))
+
+    clf1d = MultiOutputClassifier(DecisionTreeClassifier(max_depth = 2))
+    clf2d = MultiOutputClassifier(DecisionTreeClassifier(max_depth = 2))
+    clf3d = MultiOutputClassifier(DecisionTreeClassifier(max_depth = 2))
+
+    clf1Lo = MultiOutputClassifier(LogisticRegression(solver='liblinear', multi_class='ovr'))
+    clf2Lo = MultiOutputClassifier(LogisticRegression(solver='liblinear', multi_class='ovr'))
+    clf3Lo = MultiOutputClassifier(LogisticRegression(solver='liblinear', multi_class='ovr'))
+
+    clf1Li = MultiOutputClassifier(LinearDiscriminantAnalysis())
+    clf2Li = MultiOutputClassifier(LinearDiscriminantAnalysis())
+    clf3Li = MultiOutputClassifier(LinearDiscriminantAnalysis())
+
+    Y1 = df.drop(['Cal', 'Fos', 'Oks', 'EksKal', 'EksFos', 'EksOks', 'DCT', 'Time', 'Kifoz',
+        'IzmenKontr2', 'KlinForm2', 'Osteoporoz2', 'UmenVisoti2', 'IzmenOpof2', 'Osteohondroz2', 'StabIzmen2', 'ENMG2',
+                  'IzmenKontr3', 'KlinForm3', 'GrajaSmorl3', 'Osteoporoz3', 'UmenVisoti3', 'IzmenOpof3', 'Osteohondroz3', 'StabIzmen3', 'ENMG3'], axis=1)
+
+    Y2 = df.drop(['Cal', 'Fos', 'Oks', 'EksKal', 'EksFos', 'EksOks', 'DCT', 'Time', 'Kifoz',
+        'IzmenKontr', 'KlinForm', 'GrajaSmorl', 'Osteoporoz', 'UmenVisoti', 'IzmenOpof', 'Osteohondroz', 'StabIzmen', 'ENMG',
+                  'IzmenKontr3', 'KlinForm3', 'GrajaSmorl3', 'Osteoporoz3', 'UmenVisoti3', 'IzmenOpof3', 'Osteohondroz3', 'StabIzmen3', 'ENMG3'], axis=1)
+
+    Y3 = df.drop(['Cal', 'Fos', 'Oks', 'EksKal', 'EksFos', 'EksOks', 'DCT', 'Time', 'Kifoz',
+        'IzmenKontr', 'KlinForm', 'GrajaSmorl', 'Osteoporoz', 'UmenVisoti', 'IzmenOpof', 'Osteohondroz', 'StabIzmen', 'ENMG',
+                  'IzmenKontr2', 'KlinForm2', 'Osteoporoz2', 'UmenVisoti2', 'IzmenOpof2', 'Osteohondroz2', 'StabIzmen2', 'ENMG2'], axis=1)
+
+    ch=['ch1', 'ch2', 'ch3', 'ch4', 'ch5', 'ch6', 'ch7', 'ch8', 'ch9']
+    an=['an1', 'an2', 'an3', 'an4', 'an5', 'an6', 'an7', 'an8', 'an9']
+
+    r1=['r1_1', 'r1_2', 'r1_3', 'r1_4', 'r1_5', 'r1_6', 'r1_7', 'r1_8', 'r1_9']
+    r2=['r2_1', 'r2_2', 'r2_3', 'r2_4', 'r2_5', 'r2_6', 'r2_7', 'r2_8']
+    r3=['r3_1', 'r3_2', 'r3_3', 'r3_4', 'r3_5', 'r3_6', 'r3_7', 'r3_8', 'r3_9']
+
+    per1=document.getElementById('per1')
+    per2=document.getElementById('per2')
+    per3=document.getElementById('per3')
+
+    r=np.concatenate ((r1, r2, r3), axis= 0)
+
+    def analysis(*args, **kwargs):
+
+        st=""
+        for i in r:
+         resS = Element(i)
+         res = document.getElementById(i)
+         resS.write(st)
+         res.setAttribute('style', 'display:none')
+
+        y=[]
+        pr=[]
+
+        text=[]
+        for i in range(len(an)):
+         buff = document.getElementById(an[i])
+         text.append(buff.value)
+
+        namet=np.array(['Cal', 'Fos', 'Oks', 'EksKal', 'EksFos', 'EksOks', 'DCT', 'Time', 'Kifoz'])
+        td=np.array(text)
+        test=pd.DataFrame(columns= namet)
+        test.loc[ len(test.index )] =td
+        test_scale=scale.fit_transform(test)
+
+        X_train=X_scale[100:301]
+        y1_train=Y1.to_numpy()
+        y2_train=Y2.to_numpy()
+        y3_train=Y3.to_numpy()
+        st1=''
+        st2=''
+        st3=''
+
+        for i in range(len(ch)):
+         buff = document.getElementById(ch[i])
+         if(buff.checked):
+          y.append(int(buff.value))
+
+        if(per1.checked):
+         clf1.fit(X_train, y1_train[100:301])
+         clf1t.fit(X_train, y1_train[100:301])
+         clf1d.fit(X_train, y1_train[100:301])
+         clf1Lo.fit(X_train, y1_train[100:301])
+         clf1Li.fit(X_train, y1_train[100:301])
+         y_pred1=clf1.predict(test_scale)
+         y_pred1t=clf1t.predict(test_scale)
+         y_pred1d=clf1d.predict(test_scale)
+         y_pred1Lo=clf1Lo.predict(test_scale)
+         y_pred1Li=clf1Li.predict(test_scale)
+
+         result1=((y_pred1+y_pred1t+y_pred1d+y_pred1Lo+y_pred1Li)/5.0)*10
+
+         for i in y:
+          st1="{0}: {1}% ".format(names[i], result1[0][i])
+          res1 = Element(r1[i])
+          res1.write(st1)
+          resT = document.getElementById(r1[i])
+          resT.style.display = 'block'
+
+        if(per2.checked):
+         clf2.fit(X_train, y2_train[100:301])
+         clf2t.fit(X_train, y2_train[100:301])
+         clf2d.fit(X_train, y2_train[100:301])
+         clf2Lo.fit(X_train, y2_train[100:301])
+         clf2Li.fit(X_train, y2_train[100:301])
+         y_pred2=clf2.predict(test_scale)
+         y_pred2t=clf2t.predict(test_scale)
+         y_pred2d=clf2d.predict(test_scale)
+         y_pred2Lo=clf2Lo.predict(test_scale)
+         y_pred2Li=clf2Li.predict(test_scale)
+
+         result2=((y_pred2+y_pred2t+y_pred2d+y_pred2Lo+y_pred2Li)/5.0)*100
+
+         for i in y:
+          if(2 > i):
+           st2="{0}: {1}% ".format(names2[i], result2[0][i])
+           res2 = Element(r2[i])
+           res2.write(st2)
+           resT = document.getElementById(r2[i])
+           resT.style.display = 'block'
+          elif(i>2):
+           st2="{0}: {1}% ".format(names2[i-1], result2[0][i-1])
+           res2 = Element(r2[i-1])
+           res2.write(st2)
+           resT = document.getElementById(r2[i-1])
+           resT.style.display = 'block'
+
+        if(per3.checked):
+         clf3.fit(X_train, y3_train[100:301])
+         clf3t.fit(X_train, y3_train[100:301])
+         clf3d.fit(X_train, y3_train[100:301])
+         clf3Lo.fit(X_train, y3_train[100:301])
+         clf3Li.fit(X_train, y3_train[100:301])
+         y_pred3=clf3.predict(test_scale)
+         y_pred3t=clf3t.predict(test_scale)
+         y_pred3d=clf3d.predict(test_scale)
+         y_pred3Lo=clf3Lo.predict(test_scale)
+         y_pred3Li=clf3Li.predict(test_scale)
+
+         result3=((y_pred3+y_pred3t+y_pred3d+y_pred3Lo+y_pred3Li)/5.0)*100
+
+         for i in y:
+          st3="{0}: {1}% ".format(names[i], result3[0][i])
+          res3 = Element(r3[i])
+          res3.write(st3)
+          resT = document.getElementById(r3[i])
+          resT.style.display = 'block'
+
+</py-script>
+
+    <div id="load-scr" class="loader2">
+        <div id="page-loader" class="loader">
+            <div class="inner one"></div>
+            <div class="inner two"></div>
+            <div class="inner three"></div>
+        </div>
+    </div>
+
+	@section scripts{
+		<script src="~/scripts/loading.js"></script>
+    }
+
+</body>

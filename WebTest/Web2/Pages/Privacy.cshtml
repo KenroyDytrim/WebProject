@@ -1,0 +1,48 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Справка";
+}
+<div class="text-center">
+    <h1>@ViewData["Title"]</h1>
+</div>
+
+<head>
+    <link rel="stylesheet" href="~/css/Block.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <div id="load-scr" class="loader2">
+        <div id="page-loader" class="loader">
+            <div class="inner one"></div>
+            <div class="inner two"></div>
+            <div class="inner three"></div>
+        </div>
+    </div>
+
+    <div class="post-wrap">
+        <div class="post-item">
+            <div class="post-item-wrap">
+                <a href="/Database/DB" class="post-link">
+                    <h3 class="post-title">База данных</h3>
+                    <p class="post-content">Этот раздел предоставляет доступ к базе данных пациентов, в которой хранится информация о течении заболеваний и проводимых анализах.</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="post-item">
+            <div class="post-item-wrap">
+                <a href="Processing/Chart" class="post-link">
+                    <h3 class="post-title">Графики</h3>
+                    <p class="post-content">Этот раздел производит визуализацию информации из базы данных.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+        <script src="~/scripts/loading.js"></script>
+    }
+
+</body>
