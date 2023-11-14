@@ -1,0 +1,120 @@
+﻿.divA {
+    margin: 5px 20px 5px 20px;
+    position: relative;
+}
+
+.labelLogin {
+    position: absolute;
+    color: #818181;
+}
+
+.inputA {
+    margin-right: 10px;
+    width: 220px;
+    border-radius: 5px;
+    padding: 4px 16px;
+    border: 0;
+}
+
+.legendA {
+    display: inline-block;
+}
+
+.auth_dialog_header {
+    display: block;
+    margin-left: 5px;
+    margin-bottom: 15px;
+    height: 136px;
+    background: var(--light);
+    border-radius: 20px;
+    box-shadow: 0 0 50px #1d679a;
+    border: 1px solid #7caee1;
+    width: 500px;
+    text-align: center;
+}
+
+.auth_dialog_title {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 20px;
+    margin-bottom: 5px;
+    font-family: 'OrbiSans', 'Verdana';
+    color: #0c54a0;
+    text-transform: uppercase;
+    margin: 5px 20px 5px 20px;
+}
+
+.auth_dialog_title_first {
+    display: block;
+    margin: 0 0 5px 2px;
+    font-size: 14px;
+    color: #497fb8;
+}
+
+.auth_dialog_title_second {
+    display: block;
+    font-size: 29px;
+}
+
+.auth_dialog_title_third {
+    display: block;
+    margin: 5px 0 0 2px;
+    font-size: 18px;
+}
+
+.field-validation-error {
+    color: #f00;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.fieldsetA {
+    border: 1px solid #7caee1;
+    border-radius: 20px;
+    text-align: center;
+    height: 420px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, .1);
+}
+
+.parent {
+    width: 100%;
+    height: 90%;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    overflow: auto;
+    flex-direction: column;
+}
+
+.block {
+    width: 400px;
+    min-width: 200px;
+    background: var(--light);
+    border-radius: 20px;
+    box-shadow: 0 0 50px #b93632;
+    height: 420px;
+}
