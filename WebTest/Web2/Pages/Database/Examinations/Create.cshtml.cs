@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Web2.Models;
@@ -19,6 +18,7 @@ namespace Web2.Pages.Database.Examinations
         public Examination Examination { get; set; }
         [BindProperty]
         public Patient_Examination P_E { get; set; }
+        // вывод формы для добавления анализов
         public IActionResult OnGet(int? id, int? var)
         {
             if (id != null)
@@ -28,6 +28,7 @@ namespace Web2.Pages.Database.Examinations
             }
             return Page();
         }
+        // добавление новых анализов в БД
         public async Task<IActionResult> OnPostAsync(int idP, int varR)
         {
             if (!ModelState.IsValid)

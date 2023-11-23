@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="~/css/modal.css" asp-append-version="true" />
 </head>
 
-	<body>
+<body>
 
 	@if (!User.Identity.IsAuthenticated){
 		<div data-aos="fade-up-left" class="parent">
@@ -160,7 +160,7 @@
 
  @section scripts{
 
-		<partial name="_ValidationScriptsPartial" />
+	<partial name="_ValidationScriptsPartial" />
 	<script>
 		$(document).ready(function(){ 
 			if($("#siteLogin").val()!='') 

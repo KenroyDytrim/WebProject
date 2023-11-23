@@ -1,10 +1,7 @@
-using DocumentFormat.OpenXml.Office2010.Excel;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using Web2.Models;
 
 namespace Web2.Pages.Database.Patients
@@ -12,6 +9,7 @@ namespace Web2.Pages.Database.Patients
     public class EditModel : PageModel
     {
         private readonly Web2.Data.AppDbContext _context;
+        // выбор группы
         public List<SelectListItem>? GetGroup()
         {
             List<SelectListItem> group = new List<SelectListItem>();
@@ -31,7 +29,7 @@ namespace Web2.Pages.Database.Patients
 		public Archive_Group Archive { get; set; }
         [BindProperty]
         public patient_group patient_groups { get; set; }
-
+        // получение данных пациента
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -48,7 +46,7 @@ namespace Web2.Pages.Database.Patients
             }
             return Page();
         }
-
+        // изменение данных пациента
         public async Task<IActionResult> OnPostEditAsync()
         {
             if (!ModelState.IsValid)

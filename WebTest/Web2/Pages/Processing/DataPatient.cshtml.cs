@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using Web2.Models;
-using NuGet.Packaging;
 
 namespace Web2.Pages
 {
@@ -16,7 +13,7 @@ namespace Web2.Pages
         {
             _context = context;
         }
-
+        // модель для получения анализов пациента
         public class Analyzes2
         {
             public int id_analysis { get; set; }
@@ -40,6 +37,7 @@ namespace Web2.Pages
         public IList<Analyzes> analyzes { get; set; } = default!;
         public List<Analyzes2> analyzes2 = new List<Analyzes2>();
         public IList<Examination> examinations { get; set; } = default!;
+        // получение анализов пациента
         public async Task<IActionResult> OnGetAsync(int? id)
         {
 

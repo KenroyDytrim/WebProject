@@ -18,7 +18,7 @@ namespace Web2.Pages
         {
             _logger = logger;
         }
-
+        // вывод ошибки
         public void OnGet()
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;

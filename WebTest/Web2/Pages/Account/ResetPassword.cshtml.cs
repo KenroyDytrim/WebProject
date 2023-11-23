@@ -1,4 +1,3 @@
-using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,6 +13,7 @@ namespace Web2.Pages
         {
             _userManager = userManager;
         }
+        // класс для сброса пароля
         public class ResetPasswordMod
         {
             [Required]
@@ -32,11 +32,13 @@ namespace Web2.Pages
         }
         [BindProperty]
         public ResetPasswordMod mod { get; set; }
+        // вызов ошибки при несанкционированном доступе
         public IActionResult OnGet(string code)
         {
             mod = new ResetPasswordMod { Code = code };
             return code == null ? Redirect("./Error") : Page();
         }
+        // сброс пароля
         public async Task<IActionResult> OnPostResetPassword(ResetPasswordMod model)
         {
             if (!ModelState.IsValid)

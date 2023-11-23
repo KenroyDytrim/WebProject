@@ -1,6 +1,3 @@
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,6 +11,7 @@ namespace Web2.Pages.Admin
     {
 		private readonly Web2.Data.AppDbContext _context;
 		UserManager<User> _userManager;
+        // выбор роли пользователя
 		public List<SelectListItem>? GetRole()
 		{
 			List<SelectListItem> role = new List<SelectListItem>();
@@ -26,10 +24,10 @@ namespace Web2.Pages.Admin
 			_context = context;
 			_userManager = userManager;
         }			
-
 		[BindProperty]
 		public User user { get; set; }
         public IList<string> UserRoles { get; set; }
+        // получение данных пользователя
         public async Task<IActionResult> OnGetAsync(string id)
 		{
 			if (id == null)
@@ -44,6 +42,7 @@ namespace Web2.Pages.Admin
             UserRoles = await _userManager.GetRolesAsync(user);
 			return Page();
 		}
+        // изменение данных пользователя
         public async Task<IActionResult> OnPostEditAsync(IList<string> UserRoles)
         {
             var user2 = await _userManager.FindByIdAsync(user.Id);

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Web2.Data;
 using Web2.Models;
 
 namespace Web2.Pages.Database.Examinations
@@ -21,7 +16,7 @@ namespace Web2.Pages.Database.Examinations
 
       public Examination Examination { get; set; } = default!;
       public Patient_Examination P_E { get; set; } = default!;
-
+        // получение определённых анализов
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.examination == null)

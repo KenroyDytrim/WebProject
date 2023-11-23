@@ -1,4 +1,3 @@
-using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,12 +17,14 @@ namespace Web2.Pages.Account
 		}
 		[BindProperty]
 		public User user { get; set; } = default!;
+        // получение данных добавленного пользователя
 		public async Task OnGetAsync(string userId, string code) 
 		{
 			user = await _userManager.FindByIdAsync(userId);
             Uid = userId;
             codeT = code;
 		}
+        // подтверждение пользователем почты после регистрации
         public async Task<IActionResult> OnPostAsync(string Uid, string codeT)
         {
             if (Uid == null || codeT == null)

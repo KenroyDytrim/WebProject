@@ -1,10 +1,6 @@
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Web2.Models;
 
@@ -22,6 +18,7 @@ namespace Web2.Pages
 
 		[BindProperty]
 		public User user { get; set; }
+        // получение данных пользователя
         public async Task<IActionResult> OnGetAsync(string id)
 		{
 			if (id == null)
@@ -35,6 +32,7 @@ namespace Web2.Pages
             }
 			return Page();
 		}
+        // изменение данных пользователя
         public async Task<IActionResult> OnPostEditAsync(IList<string> UserRoles)
         {
             var user2 = await _userManager.FindByIdAsync(user.Id);

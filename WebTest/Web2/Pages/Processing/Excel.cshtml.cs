@@ -1,12 +1,7 @@
-using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Presentation;
 using IronXL;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using OfficeOpenXml;
 using Web2.Models;
 
 namespace Web2.Pages
@@ -21,12 +16,14 @@ namespace Web2.Pages
             _context = context;
             Data = new List<List<string>>();
         }
+        // модели для разных таблиц БД
         public patient_archive Patient { get; set; }
         public Analyzes AnalyzesP { get; set; }
         public Examination ExaminationP { get; set; }
         public Archive_Group Archive { get; set; }
         public Patient_Analyzes PA { get; set; }
         public Patient_Examination PE { get; set; }
+        // выбор таблицы БД
         public List<SelectListItem>? GetName()
         {
             List<SelectListItem> group = new List<SelectListItem>();
@@ -38,10 +35,8 @@ namespace Web2.Pages
             group.Add(new SelectListItem() { Text = "Связь: пациенты-диспансеризация", Value = "patient_examinations" });
             return group;
         }
-        public void OnGet()
-        {
-        
-        }
+        public void OnGet(){}
+        // ввод данных из Excel файла в БД
         public async Task<IActionResult> OnPostAdd(string table_name)
         {
             try
@@ -167,14 +162,13 @@ namespace Web2.Pages
             }
             catch (Exception ex)
             {
-                //Handle exceptions here
-                Console.WriteLine(ex.Message);
                 return Redirect("./Error");
             }
             //return Redirect("./Excel");
             Data.Clear();
             return Page();
         }
+        // получение данных из Excel файла
         public Task<IActionResult> OnPostImport(IFormFile file)
         {
             if (file != null)
@@ -198,12 +192,10 @@ namespace Web2.Pages
                 }
                 catch (Exception ex)
                 {
-                    //Handle exceptions here
-                    Console.WriteLine(ex.Message);
+                    return Redirect("./Error");
                 }
             }
             return Task.FromResult<IActionResult>(Page());
-        }
-       
+        }  
     }
 }

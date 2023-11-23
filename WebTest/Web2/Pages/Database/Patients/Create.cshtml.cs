@@ -1,10 +1,7 @@
-using DocumentFormat.OpenXml.InkML;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Transactions;
 using Web2.Models;
 
 namespace Web2.Pages.Database.Patients
@@ -12,6 +9,7 @@ namespace Web2.Pages.Database.Patients
     public class CreateModel : PageModel
     {
         private readonly Data.AppDbContext _context;
+        // выбор группы
         public List<SelectListItem>? GetGroup()
         {
             List<SelectListItem> group = new List<SelectListItem>();
@@ -35,6 +33,7 @@ namespace Web2.Pages.Database.Patients
 		[BindProperty]
         public Archive_Group Archive { get; set; }
         public User_Patients UP { get; set; }
+        // добавление нового пациента в БД
         public async Task<IActionResult> OnPostAsync()
         {
             UP= new User_Patients();

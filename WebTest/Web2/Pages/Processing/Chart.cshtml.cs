@@ -1,10 +1,7 @@
-using Azure;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Web2.Data;
 using Web2.Models;
 
@@ -16,6 +13,7 @@ namespace Web2.Pages
 
         public int? B=1;
         public string NameA = "Кальций сыворотки крови (ммоль/л)";
+        // выбор группы
         public List<SelectListItem>? GetGroup()
         {
             List<SelectListItem> group = new List<SelectListItem>();
@@ -24,6 +22,7 @@ namespace Web2.Pages
             group.Add(new SelectListItem() { Text = "Группа сравнения", Value = "3" });
             return group;
         }
+        // выбор показателя
         public List<SelectListItem>? GetAnalysis()
         {
             List<SelectListItem> analysis = new List<SelectListItem>();
@@ -49,11 +48,10 @@ namespace Web2.Pages
 
         public IList<Examination> examination { get; set; } = default!;
         public IList<Analyzes> analyzes { get; set; } = default!;
-
-        public List<PathlogCount> GetData1(int? G1)
+        // получение данных для графика : "кол-во патологий"
+        public List<PathologCount> GetData1(int? G1)
         {
-
-            List<PathlogCount> pathologies = new List<PathlogCount>();
+            List<PathologCount> pathologies = new List<PathologCount>();
             int[]? nums = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
             int? group = G1;
@@ -78,7 +76,7 @@ namespace Web2.Pages
 
             for (int i = 0; i < nums.Count(); i++)
             {
-                pathologies.Add(new PathlogCount()
+                pathologies.Add(new PathologCount()
                 {
                     Name = name[i],
                     Count = nums[i]
@@ -87,10 +85,9 @@ namespace Web2.Pages
 
             return pathologies;
         }
-
+        // получение данных для графика: "Распределение показателей"
         public List<Distribution> GetData2(int? n, int? G1)
         {
-
             List<Distribution> distribution = new List<Distribution>();
             data.Clear();
 

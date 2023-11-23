@@ -1,5 +1,3 @@
-using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -65,14 +63,14 @@ namespace Web2.Pages.Database.Analyzes
             }
             catch (DbUpdateConcurrencyException)
             {
-                //if (!PatientExists(Analyzes.id_analysis))
-                //{
-                //    return NotFound();
-                //}
-                //else
-                //{
-                //    throw;
-                //}
+                if (!PatientExists(Analyzes.id_analysis))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return RedirectToPage("./Analyzes");

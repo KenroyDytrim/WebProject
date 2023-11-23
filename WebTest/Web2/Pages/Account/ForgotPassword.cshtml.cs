@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Drawing;
 using Web2.Models;
 
 namespace Web2.Pages
@@ -13,6 +12,7 @@ namespace Web2.Pages
         {
             _userManager = userManager;
         }
+        // отправка сообщения о сбросе пароля
         public async Task<IActionResult> OnPostForgotPassword(string Email)
         {
             if (ModelState.IsValid)

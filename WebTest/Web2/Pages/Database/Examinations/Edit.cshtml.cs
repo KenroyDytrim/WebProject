@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +20,7 @@ namespace Web2.Pages.Database.Examinations
         public patient_archive Patient { get; set; }
         [BindProperty]
         public Patient_Examination P_E { get; set; }
+        // получение анализов
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -37,7 +37,7 @@ namespace Web2.Pages.Database.Examinations
             }
             return Page();
         }
-
+        // изменение анализов
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -63,14 +63,14 @@ namespace Web2.Pages.Database.Examinations
             }
             catch (DbUpdateConcurrencyException)
             {
-                //if (!PatientExists(Examination.id_examination))
-                //{
-                //    return NotFound();
-                //}
-                //else
-                //{
-                //    throw;
-                //}
+                if (!PatientExists(Examination.id_examination))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return RedirectToPage("./Examinations");

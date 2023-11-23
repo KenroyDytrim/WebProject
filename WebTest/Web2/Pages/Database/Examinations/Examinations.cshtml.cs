@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Web2.Models;
 using Web2.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Web2.Pages.Database.Examinations
 {
     public class ExaminationsModel : PageModel
     {
+        // выбор группы
         public List<SelectListItem>? GetGroup()
         {
             List<SelectListItem> group = new List<SelectListItem>();
@@ -27,6 +27,7 @@ namespace Web2.Pages.Database.Examinations
         }
 
         public IList<Examination> examination { get; set; } = default!;
+        // получение анализов пациентов
         public async Task OnGetAsync(int? group)
         {
 			string email = User.Identity.Name.ToString();
@@ -62,6 +63,7 @@ namespace Web2.Pages.Database.Examinations
 				}
             }
         }
+        // выбор анализов для пациентов определённой группы
         public IActionResult OnPost(string G1)
         {
             int G = Convert.ToInt32(G1);
@@ -69,6 +71,7 @@ namespace Web2.Pages.Database.Examinations
 
             return Redirect(url);
         }
+        // удаление анализа из БД
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
             var b = await _context.examination.FindAsync(id);

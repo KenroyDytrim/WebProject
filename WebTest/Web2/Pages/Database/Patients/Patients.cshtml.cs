@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using DocumentFormat.OpenXml.InkML;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 using Microsoft.EntityFrameworkCore;
-using NuGet.DependencyResolver;
-using Web2.Data;
 using Web2.Models;
 
 namespace Web2.Pages.Database.Patients
 {
     public class DatabaseModel : PageModel
     {
+        // выбор группы
 		public List<SelectListItem>? GetGroup()
         {
             List<SelectListItem> group = new List<SelectListItem>();
@@ -34,7 +26,7 @@ namespace Web2.Pages.Database.Patients
 
         public IList<patient_archive> patient_archive { get;set; } = default!;
 		public IList<User> user { get; set; } = default!;
-
+        // получение архива пациентов
         public async Task OnGetAsync(int? group)
         {
 			string email = User.Identity.Name.ToString();
@@ -70,6 +62,7 @@ namespace Web2.Pages.Database.Patients
                 }
             }
         }
+        // вывод пациентов определённой группы
         public IActionResult OnPost(string G1)
         {
             int G = Convert.ToInt32(G1);
@@ -77,6 +70,7 @@ namespace Web2.Pages.Database.Patients
 
             return Redirect(url);
         }
+        // удаление пациента из БД
         public async Task<IActionResult> OnPostDeleteAsync(int id)
 		{
 			var b = await _context.patient_archive.FindAsync(id);

@@ -1,19 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Web2.Data;
 using Web2.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using DocumentFormat.OpenXml.Wordprocessing;
 using System.ComponentModel.DataAnnotations;
-using static System.Net.WebRequestMethods;
-using System.Net;
-using RestSharp;
-using Microsoft.AspNetCore.Antiforgery;
 
 namespace Web2.Pages
 {
@@ -39,7 +32,7 @@ namespace Web2.Pages
         public string ReturnUrl { get; set; }
         [TempData]
         public string ErrorMessage { get; set; }
-
+        // класс для авторизации пользователя
         public class LogMod
         {
             [Required]
@@ -52,7 +45,7 @@ namespace Web2.Pages
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
-
+        // авторизация
         public async Task<IActionResult> OnPostLogin(LogMod mod)
         {
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -71,6 +64,7 @@ namespace Web2.Pages
             }
             return Page();
         }
+        // аутентификация
         private async Task Authenticate(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
@@ -86,6 +80,7 @@ namespace Web2.Pages
             // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
+        // выход пользователя
 		public async Task<IActionResult> OnPostLogout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -94,6 +89,7 @@ namespace Web2.Pages
 
 			return RedirectToPage("./Log");
         }
+        // получение данных пользователя
         public async Task OnGetAsync()
 		{
             if (User.Identity.IsAuthenticated)

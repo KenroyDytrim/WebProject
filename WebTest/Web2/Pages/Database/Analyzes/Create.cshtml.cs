@@ -1,5 +1,3 @@
-using DocumentFormat.OpenXml.Wordprocessing;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Web2.Models;

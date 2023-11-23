@@ -1,17 +1,13 @@
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using Web2.Models;
 
 namespace Web2.Pages
 {
-	[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
 	public class AdminPanelModel : PageModel
     {
 		private readonly Web2.Data.AppDbContext _context;
@@ -23,11 +19,12 @@ namespace Web2.Pages
 		}
 		[BindProperty]
 		public IList<User> user { get; set; } = default!;
+		// получение данных пользователей
 		public async Task OnGetAsync()
 		{
 			user = await _context.user.FromSqlRaw($"SELECT * FROM \"AspNetUsers\" ").ToListAsync();
 		}
-
+		// удаление пользователей из БД
 		public async Task<IActionResult> OnPostDeleteAsync(string id)
         {
             var b = await _userManager.FindByIdAsync(id);

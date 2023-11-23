@@ -18,6 +18,7 @@ namespace Web2.Pages
         public Models.Analyzes Analyzes { get; set; }
         [BindProperty]
         public Examination Examination { get; set; }
+        // получение данных для прогноза патологий
         public async Task<IActionResult> OnGetAsync(int? id_a, int? id_e)
         {
             var client = new GitHubClient(new ProductHeaderValue("GitHub"), new Uri("https://github.com/"));

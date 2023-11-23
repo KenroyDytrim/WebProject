@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Web2.Data;
 using Web2.Models;
 
 namespace Web2.Pages.Database.Patients
@@ -22,7 +16,7 @@ namespace Web2.Pages.Database.Patients
 		public patient_archive patient_archive { get; set; } = default!;
 	    public Archive_Group archive_group { get; set; } = default!;
         public patient_group patient_group { get; set; } = default!;
-
+        // получение данных пациента
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.patient_archive == null)

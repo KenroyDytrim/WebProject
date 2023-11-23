@@ -1,21 +1,17 @@
-using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Security.Policy;
 using Web2.Models;
-using MailKit.Net.Smtp;
-using MimeKit;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web2.Pages.Admin
 {
-	public class CreateModel : PageModel
+    public class CreateModel : PageModel
 	{
 		UserManager<User> _userManager;
-
+		// модель для добавления пользователя
         public class InputModel
         {
             public string Role { get; set; }
@@ -41,6 +37,7 @@ namespace Web2.Pages.Admin
 
         [BindProperty]
         public InputModel Input { get; set; }
+		// выбор роли пользователя
         public List<SelectListItem>? GetRole()
         {
             List<SelectListItem> role = new List<SelectListItem>();
@@ -58,7 +55,7 @@ namespace Web2.Pages.Admin
 		{
 			return Page();
 		}
-
+		// добавление пользователя и отправка сообщения для подтверждения регистрации
 		public async Task<IActionResult> OnPostAsync()
 		{
 			if (await _userManager.FindByEmailAsync(Input.Email) == null)
@@ -91,6 +88,5 @@ namespace Web2.Pages.Admin
 			}
 			return Page();
 		}
-
     }
 }
