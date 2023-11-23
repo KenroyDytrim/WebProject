@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Web2.Models
 {
+    // Таблица: группы пациентов.
     public class patient_group
     {
         [Key]
@@ -13,6 +14,7 @@ namespace Web2.Models
 		public int id_group { get; set; }
         public string? title { get; set; }
     }
+    // Таблица: архив пациентов.
     public class patient_archive
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -25,6 +27,7 @@ namespace Web2.Models
         public DateOnly birthday { get; set; }
         public string? phone_num { get; set; }
     }
+    // Таблица: пациенты и их группа.
     [PrimaryKey(nameof(id_patient), nameof(id_group))] 
     public class Archive_Group
     {
@@ -36,6 +39,7 @@ namespace Web2.Models
         [ForeignKey("id_group")]
         public patient_group? patient_group { get; set; }
     }
+    // Таблица: архив анализов.
     public class Analyzes
     {
         [Key]
@@ -58,6 +62,7 @@ namespace Web2.Models
         [Required(ErrorMessage = "Не указана степень выраженности ДСТ")]
         public int severity_of_dst { set; get; }
     }
+    // Таблица: пациенты и их анализы.
     [PrimaryKey(nameof(id_patient), nameof(id_analysis))]
     public class Patient_Analyzes
     {
@@ -68,6 +73,7 @@ namespace Web2.Models
         [ForeignKey("id_analysis")]
         public Analyzes? analyzes { get; set; }
     }
+    // Таблица: результаты диспансеризации.
     public class Examination
     {
         [Key]
@@ -90,6 +96,7 @@ namespace Web2.Models
         public Boolean stabilographic_changes { set; get; }
         public Boolean enmg { set; get; }
     }
+    // Таблица: пациенты и их результаты диспансеризации.
     [PrimaryKey(nameof(id_patient), nameof(id_examination))]
     public class Patient_Examination
     {
@@ -100,9 +107,11 @@ namespace Web2.Models
         [ForeignKey("id_examination")]
         public Examination? examination { get; set; }
     }
+    // Таблица: роли пользователей.
     public class Role:IdentityRole
     {
     }
+    // Таблица: пользователи.
     public class User: IdentityUser
     {
         [Required(ErrorMessage = "Не указан логин")]
@@ -115,6 +124,7 @@ namespace Web2.Models
         [Phone]
 		public string Phone { get; set; }
     }
+    // Таблица: доктора и их пациенты.
     [PrimaryKey(nameof(id_user), nameof(id_patient))]
     public class User_Patients
     {
